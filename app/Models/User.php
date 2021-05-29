@@ -40,4 +40,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'user_has_groups', 'group_id', 'user_id');
+    }
+
+    public function lists()
+    {
+        return $this->hasMany(ToDoList::class, 'user_has_lists');
+    }
+
+    public function tasks()
+    {
+        $tasks = Task::where('user_id', $this->id);
+        return $tasks;
+    }
 }

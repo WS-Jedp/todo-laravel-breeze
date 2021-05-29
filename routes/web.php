@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Lists\ListController;
+use App\Http\Controllers\User\GroupController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,5 +29,22 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::resource('/groups', GroupController::class)->names([
+    'index' => 'groups',
+    'create' => 'groups.create',
+    'store' => 'groups.save',
+    'destroy' => 'groups.delete',
+    'update' => 'groups.udpate',
+])->middleware('auth.basic');
+
+Route::resource('/lists', ListController::class)->names([
+    'index' => 'lists',
+    'create' => 'lists.create',
+    'store' => 'lists.save',
+    'destroy' => 'lists.delete',
+    'update' => 'lists.udpate',
+])->middleware('auth.basic');
 
 require __DIR__.'/auth.php';
